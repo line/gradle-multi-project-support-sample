@@ -1,0 +1,7 @@
+
+coffee:
+  api:
+    baseUrl: http://localhost:8081
+juice:
+  api:
+    baseUrl: http://localhost:8082

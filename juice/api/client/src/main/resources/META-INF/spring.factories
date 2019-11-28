@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.linecorp.sample.juice.api.client.JuiceApiClientAutoConfiguration
