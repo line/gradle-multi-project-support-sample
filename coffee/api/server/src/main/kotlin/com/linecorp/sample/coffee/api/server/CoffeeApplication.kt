@@ -16,7 +16,7 @@ class CoffeeApplication {
     @Bean
     fun handler() = nest(path("/"), router {
         GET("") {
-            ServerResponse.ok().body(Coffee("coffee").toMono())
+            ServerResponse.ok().body(Coffee("coffee", "Jamaica").toMono())
         }
     })
 }
