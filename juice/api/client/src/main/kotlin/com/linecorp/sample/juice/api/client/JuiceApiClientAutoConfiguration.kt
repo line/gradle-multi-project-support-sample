@@ -1,6 +1,7 @@
 package com.linecorp.sample.juice.api.client
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import okhttp3.OkHttpClient
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -19,6 +20,16 @@ class JuiceApiClientAutoConfiguration {
     @Bean
     fun juiceApi(properties: JuiceApiClientProperties) = Retrofit
             .Builder()
+            .client(OkHttpClient()
+                    .newBuilder()
+                    .addInterceptor {
+                        val request = it.request()
+                                .newBuilder()
+                                .addHeader("User-Agent", properties.userAgent)
+                                .build()
+                        it.proceed(request)
+                    }
+                    .build())
             .baseUrl(properties.baseUrl)
             .addConverterFactory(JacksonConverterFactory.create(jacksonObjectMapper()))
             .build()
@@ -31,5 +42,7 @@ class JuiceApiClientAutoConfiguration {
 data class JuiceApiClientProperties(
         @Url
         @NotBlank
-        val baseUrl: String
+        val baseUrl: String,
+        @NotBlank
+        val userAgent: String
 )
