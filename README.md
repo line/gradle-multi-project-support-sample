@@ -1,6 +1,6 @@
-# Multi Project Support Sample
+# Gradle Multi Project Support Sample
 
-This is a sample of build-recipe-plugin in [multi-project-support](https://github.com/line/multi-project-support)  
+This is a sample of build-recipe-plugin in [gradle-multi-project-support](https://github.com/line/gradle-multi-project-support)  
 
 ## How to run and test?
 
