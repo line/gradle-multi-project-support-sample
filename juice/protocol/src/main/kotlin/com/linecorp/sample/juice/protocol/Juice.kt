@@ -1,3 +1,5 @@
 package com.linecorp.sample.juice.protocol
 
-data class Juice(val name: String)
+interface Juice {
+    val name: String
+}

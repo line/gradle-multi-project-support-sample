@@ -7,12 +7,14 @@ import org.springframework.context.annotation.Bean
 import org.springframework.web.reactive.function.server.*
 import reactor.kotlin.core.publisher.toMono
 
+internal data class JuiceResponse(override val name: String) : Juice
+
 @SpringBootApplication
 class JuiceApplication {
     @Bean
     fun handler() = RouterFunctions.nest(RequestPredicates.path("/"), router {
         GET("") {
-            ServerResponse.ok().body(Juice("juice").toMono())
+            ServerResponse.ok().body(JuiceResponse("juice").toMono())
         }
     })
 }
