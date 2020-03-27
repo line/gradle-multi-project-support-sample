@@ -1,6 +1,11 @@
 package com.linecorp.sample.juice.api.client
 
+import com.fasterxml.jackson.core.Version
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.module.SimpleAbstractTypeResolver
+import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.linecorp.sample.juice.protocol.Juice
 import okhttp3.OkHttpClient
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
@@ -31,9 +36,15 @@ class JuiceApiClientAutoConfiguration {
                     }
                     .build())
             .baseUrl(properties.baseUrl)
-            .addConverterFactory(JacksonConverterFactory.create(jacksonObjectMapper()))
+            .addConverterFactory(JacksonConverterFactory.create(jacksonObjectMapper().registerTypeModule<Juice, JuiceResponse>()))
             .build()
             .create<JuiceApi>()
+}
+
+inline fun <reified INTERFACE, reified IMPLEMENTATION : INTERFACE> ObjectMapper.registerTypeModule(): ObjectMapper = registerModule(typeModule<INTERFACE, IMPLEMENTATION>())
+
+inline fun <reified INTERFACE, reified IMPLEMENTATION : INTERFACE> typeModule() = SimpleModule("JuiceResolver", Version.unknownVersion()).apply {
+    setAbstractTypes(SimpleAbstractTypeResolver().addMapping(INTERFACE::class.java, IMPLEMENTATION::class.java))
 }
 
 @Validated
