@@ -92,12 +92,12 @@ configure(byTypePrefix("kotlin") and byTypeHaving("boot")) {
 
 configure(byTypeHaving("boot") and byTypeSuffix("lib")) {
     tasks {
-        withType<BootJar> {
-            enabled = false
-        }
-
         withType<Jar> {
             enabled = true
+        }
+
+        withType<BootJar> {
+            enabled = false
         }
 
         withType<BootRun> {
